@@ -22,9 +22,8 @@ spec:
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         env:
-{{- range $key, $value := .Values.env }}
-        - name: "{{ $key }}"
-          value: "{{ $value }}"
+{{- if .Values.env }}
+{{- tpl (toYaml .Values.env) $ | nindent 12 }}
 {{- end }}
 {{- if .Values.oauth.enabled }}
         - name: TOKEN_SECRET
@@ -126,7 +125,7 @@ spec:
         - name: data
         {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: {{ template "chronograf.fullname" . }}
+            claimName: {{ .Values.persistence.existingClaim | default (include "chronograf.fullname" .) }}
         {{ else }}
           emptyDir: {}
         {{ end }}

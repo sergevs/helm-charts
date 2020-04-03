@@ -9,8 +9,26 @@ metadata:
     heritage: "{{ .Release.Service }}"
 spec:
   type: {{ .Values.service.type }}
+  {{- if and .Values.service.loadBalancerIP (eq .Values.service.type "LoadBalancer") }}
+  loadBalancerIP: {{ .Values.service.loadBalancerIP }}
+  {{- end }}
+  {{- if and (eq .Values.service.type "LoadBalancer") .Values.service.loadBalancerSourceRanges }}
+  loadBalancerSourceRanges:
+  {{- with .Values.service.loadBalancerSourceRanges }}
+  {{ toYaml . | nindent 4 }}
+  {{- end }}
+  {{- end }}
+  {{- if and (eq .Values.service.type "ClusterIP") .Values.service.clusterIP }}
+  clusterIP: {{ .Values.service.clusterIP }}
+  {{- end }}
   ports:
-  - port: 80
+  - port: 8888
     targetPort: 8888
+    name: http
+    {{- if (and (or (eq .Values.service.type "NodePort") (eq .Values.service.type "LoadBalancer")) (not (empty .Values.service.nodePort)))}}
+    nodePort: {{ .Values.service.nodePort }}
+    {{- else if eq .Values.service.type "ClusterIP" }}
+    nodePort: null
+    {{- end }}
   selector:
     app: {{ template "chronograf.fullname" . }}

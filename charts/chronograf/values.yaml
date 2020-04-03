@@ -16,7 +16,7 @@ service:
 ## Persist data to a persistent volume
 ##
 persistence:
-  enabled: false
+  enabled: true
   ## chronograf data Persistent Volume Storage Class
   ## If defined, storageClassName: <storageClass>
   ## If set to "-", storageClassName: "", which disables dynamic provisioning
@@ -27,6 +27,7 @@ persistence:
   # storageClass: "-"
   accessMode: ReadWriteOnce
   size: 8Gi
+  # existingClaim: ""
 
 ## Configure resource requests and limits
 ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
@@ -98,7 +99,8 @@ oauth:
 
 ## Extra environment variables that will be passed onto deployment pods
 env:
-  HOST_PAGE_DISABLED: true
+  - name: HOST_PAGE_DISABLED
+    value: true
 
 ## The name of a secret in the same kubernetes namespace which contain values to be added to the environment
 ## This can be useful for auth tokens, etc
