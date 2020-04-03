@@ -40,6 +40,16 @@ resources:
     memory: 2Gi
     cpu: 2
 
+## custom init containers
+# customInitContainers: |
+#   - name: "wait-for-influxdb"
+#    image: curlimages/curl:7.69.1
+#    command:
+#      - 'sh'
+#      - '-c'
+#      - |
+#        curl -m3 --retry 6 {{ tpl .Values.influxURL . }}/ping
+
 ## Set the environment variables for kapacitor (or anything else you want to use)
 ## ref: https://hub.docker.com/_/kapacitor/
 ## ref: https://docs.influxdata.com/kapacitor/latest/administration/configuration/
