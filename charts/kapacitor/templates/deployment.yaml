@@ -29,7 +29,7 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         env:
         {{- if .Values.env }}
-        {{- tpl (toYaml .Values.env) $ | indent 8 }}
+{{- tpl (toYaml .Values.env) $ | nindent 8 }}
         {{- end }}
         - name: KAPACITOR_HOSTNAME
           value: {{ template "kapacitor.fullname" . }}.{{ .Release.Namespace }}

@@ -56,11 +56,11 @@ resources:
 ##
 # Examples below
 #
-# envVars:
-#   KAPACITOR_SLACK_ENABLED: true
-#   KAPACITOR_SLACK_URL: "http://slack.com/xxxxx/xxxxx/xxxx/xxxxxxx"
-#   KAPACITOR_HTTP_LOG_ENABLED: true
-#   KAPACITOR_LOGGING_LEVEL: "INFO"
+# env:
+#   - name: KAPACITOR_HTTP_LOG_ENABLED
+#     value: "true"
+#   - name: KAPACITOR_LOGGING_LEVEL
+#     value: "INFO"
 #
 # or, at your terminal, with
 #
