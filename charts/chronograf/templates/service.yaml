@@ -22,7 +22,7 @@ spec:
   clusterIP: {{ .Values.service.clusterIP }}
   {{- end }}
   ports:
-  - port: 8888
+  - port: {{ .Values.service.port | default 80 }}
     targetPort: 8888
     name: http
     {{- if (and (or (eq .Values.service.type "NodePort") (eq .Values.service.type "LoadBalancer")) (not (empty .Values.service.nodePort)))}}
