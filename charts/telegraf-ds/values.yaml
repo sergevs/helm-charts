@@ -73,7 +73,7 @@ config:
   outputs:
     - influxdb:
         urls:
-          - "http://influxdb.monitoring.svc:8086"
+          - "http://cimon-prod-influxdb:8086"
         database: "telegraf"
         retention_policy: ""
         timeout: "5s"
@@ -81,3 +81,27 @@ config:
         password: ""
         user_agent: "telegraf"
         insecure_skip_verify: false
+  inputs:
+    #- diskio
+    #- kernel
+    #- mem
+    #- processes
+    #- swap
+    #- system
+
+    #- cpu
+    #   percpu: true
+    #   totalcpu: true
+    #   collect_cpu_time: false
+    #   report_active: false
+
+    #- inputs.disk
+    #   ignore_fs: '["tmpfs", "devtmpfs", "devfs", "iso9660", "overlay", "aufs", "squashfs"]'
+
+    #- system:
+    - docker:
+        endpoint: "unix:///var/run/docker.sock"
+    - kubernetes:
+        url: "https://$HOSTIP:10250"
+        bearer_token: "/run/secrets/kubernetes.io/serviceaccount/token"
+        insecure_skip_verify: true
